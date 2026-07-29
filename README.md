@@ -5,13 +5,15 @@
 ### npx skills (Recomendado)
 
 ```bash
-npx skills@latest add luiseduardobatista/skills
+npx skills@latest add luiseduardobatista/skills --all -g
 ```
 
 Uma skill específica:
 
 ```bash
 npx skills@latest add luiseduardobatista/skills --skill=git-workflow
+# ou várias:
+npx skills@latest add luiseduardobatista/skills
 ```
 
 Atualizar:
@@ -44,7 +46,7 @@ Clona o repo e aponta o agente para ele. Melhor para desenvolvimento — ediçõ
 git clone https://github.com/luiseduardobatista/skills ~/repos/skills
 ```
 
-Adicionar nas configurações:
+Adicionar no `settings.json` do pi:
 
 ```json
 {
@@ -55,7 +57,7 @@ Adicionar nas configurações:
 ## Skills
 
 | Skill | Descrição |
-|---|---|
+| --- | --- |
 | [git-workflow](skills/git-workflow/SKILL.md) | Regras para commits atômicos, conventional commits, PRs e operações Git |
 | [good-code](skills/good-code/SKILL.md) | Smallest stable change — KISS, YAGNI, código limpo |
 | [pr-description](skills/pr-description/SKILL.md) | Gera e revisa descrições de PR/MR claras e verificáveis |
