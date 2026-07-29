@@ -4,8 +4,6 @@
 
 ### npx skills (Recomendado)
 
-Funciona com qualquer agente. Copia os arquivos localmente e são editáveis.
-
 ```bash
 npx skills@latest add luiseduardobatista/skills
 ```
@@ -34,6 +32,8 @@ Atualizar:
 
 ```bash
 pi update git:github.com/luiseduardobatista/skills
+# ou atualiza todos os pacotes de uma vez
+pi update --extensions
 ```
 
 ### Caminho direto
