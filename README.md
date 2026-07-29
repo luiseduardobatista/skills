@@ -1,19 +1,59 @@
 # luisb-skills
 
-Personal skills for PI.
+Personal agent skills — portable across any harness (PI, Claude Code, Codex).
+
+Built on the [Agent Skills standard](https://agentskills.io/specification).
 
 ## Install
 
-From a local checkout:
+### npx skills (Recommended)
+
+Works with any agent harness. Copies editable skill files locally.
 
 ```bash
-pi install ./path/to/skills
+npx skills@latest add luiseduardobatista/skills
 ```
 
-From git:
+Install a single skill:
+
+```bash
+npx skills@latest add luiseduardobatista/skills --skill=git-workflow
+```
+
+Update:
+
+```bash
+npx skills update
+```
+
+### pi install
+
+PI-native package management. Clones and manages the repo automatically.
 
 ```bash
 pi install git:github.com/luiseduardobatista/skills
+```
+
+Update:
+
+```bash
+pi update git:github.com/luiseduardobatista/skills
+```
+
+### Direct path
+
+Clone the repo and point your harness to it. Best for active development — edits take effect on restart.
+
+```bash
+git clone https://github.com/luiseduardobatista/skills ~/repos/skills
+```
+
+Then add to your settings:
+
+```json
+{
+  "skills": ["~/repos/skills/skills"]
+}
 ```
 
 ## Skills
