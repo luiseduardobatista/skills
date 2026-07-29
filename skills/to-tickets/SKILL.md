@@ -1,105 +1,205 @@
 ---
 name: to-tickets
-description: Break a plan, spec, or the current conversation into a set of tracer-bullet tickets, each declaring its blocking edges, published to the configured tracker — edges as text in one file per ticket locally, or native blocking links on a real tracker.
+description: Break an implementation-ready specification, plan, or conversation into small, independently understandable tracer-bullet tickets with explicit dependencies.
 disable-model-invocation: true
 ---
 
 # To Tickets
 
-Break a plan, spec, or conversation into a set of **tickets** — tracer-bullet vertical slices, each declaring the tickets that **block** it.
+Turn an implementation-ready specification, plan, or current conversation into implementation tickets.
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+Each ticket must be understandable and executable by a developer who has not read the full parent specification. The parent specification remains the source of truth for broader context, but essential requirements must not be hidden behind a link.
 
-## Process
+## 1. Gather context
 
-### 1. Gather context
+Work from the current conversation and any referenced specification, plan, issue, ADR, design, or repository path.
 
-Work from whatever is already in the conversation context. If the user passes a reference (a spec path, an issue number or URL) as an argument, fetch it and read its full body and comments.
+If the user provides a reference, read the complete relevant artifact before drafting tickets.
 
-### 2. Explore the codebase (optional)
+Inspect the codebase when needed to understand:
 
-If you have not already explored the codebase, do so to understand the current state of the code. Ticket titles and descriptions should use the project's domain glossary vocabulary, and respect ADRs in the area you're touching.
+- current behaviour;
+- domain terminology;
+- integration points;
+- ownership boundaries;
+- public contracts;
+- test seams;
+- repository and tracker conventions.
 
-Look for opportunities to prefactor the code to make the implementation easier. "Make the change easy, then make the easy change."
+Respect relevant ADRs and accepted decisions.
 
-### 3. Draft vertical slices
+If unresolved questions materially affect scope, architecture, contracts, migration order, or acceptance, surface them before decomposition.
 
-Break the work into **tracer bullet** tickets.
+## 2. Draft tracer-bullet tickets
 
-<vertical-slice-rules>
+Prefer narrow, complete vertical slices.
 
-- Each slice cuts a narrow but COMPLETE path through every layer (schema, API, UI, tests) — vertical, NOT a horizontal slice of one layer
-- A completed slice is demoable or verifiable on its own
-- Each slice is sized to fit in a single fresh context window
-- Any prefactoring should be done first
+Each ticket should make one meaningful behaviour, capability, or outcome demonstrably true.
 
-</vertical-slice-rules>
+A ticket should:
 
-Give each ticket its **blocking edges** — the other tickets that must complete before it can start. A ticket with no blockers can start immediately.
+- cross every layer required for that outcome;
+- be independently verifiable;
+- fit within one focused implementation session;
+- leave the repository in a coherent state;
+- preserve applicable constraints and invariants.
 
-**Wide refactors are the exception to vertical slicing.** A **wide refactor** is one mechanical change — rename a column, retype a shared symbol — whose **blast radius** fans across the whole codebase, so a single edit breaks thousands of call sites at once and no vertical slice can land green. Don't force it into a tracer bullet; sequence it as **expand–contract**. First expand: add the new form beside the old so nothing breaks. Then migrate the call sites over in batches sized by blast radius (per package, per directory), each batch its own ticket blocked by the expand, keeping CI green batch to batch because the old form still exists. Finally contract: delete the old form once no caller remains, in a ticket blocked by every migrate batch. When even the batches can't stay green alone, keep the sequence but let them share an integration branch that all block a final integrate-and-verify ticket — green is promised only there.
+Do not split work only by technical layer, such as schema, backend, frontend, styling, and tests, when a vertical slice is possible.
 
-### 4. Quiz the user
+For broad refactors or migrations that cannot safely land as vertical slices, use expand-contract:
 
-Present the proposed breakdown as a numbered list. For each ticket, show:
+1. Expand: introduce the new form beside the old.
+2. Migrate: move consumers in safe, verifiable batches.
+3. Validate: prove compatibility, correctness, performance, or operational readiness.
+4. Contract: remove the old form when the required conditions are satisfied.
 
-- **Title**: short descriptive name
-- **Blocked by**: which other tickets (if any) must complete first
-- **What it delivers**: the end-to-end behaviour this ticket makes work
+Create explicit cleanup or removal tickets when legacy code, flags, adapters, or compatibility paths must be deleted.
 
-Ask the user:
+## 3. Make every ticket self-contained
 
-- Does the granularity feel right? (too coarse / too fine)
-- Are the blocking edges correct — does each ticket only depend on tickets that genuinely gate it?
-- Should any tickets be merged or split further?
+Each ticket must be independently understandable and executable by a developer who has not read the full source specification.
 
-Iterate until the user approves the breakdown.
+Copy or restate all requirements, constraints, and acceptance criteria that materially apply to that ticket.
 
-### 5. Publish the tickets to the configured tracker
+Do not require the implementer to navigate to the parent specification to discover essential requirements.
 
-Publish the approved tickets. **How** depends on the tracker `/setup-matt-pocock-skills` configured — the tickets are the same either way, only the shape of the blocking edges changes:
+Reference the parent specification for broader context, rationale, and decisions outside the ticket's scope.
 
-- **Local files** → write one file per ticket under `.scratch/<feature-slug>/issues/<NN>-<slug>.md`, numbered from `01` in dependency order (blockers first). Each file's "Blocked by" lists the numbers/titles it depends on. Use the per-ticket file template below — one ticket per file, never a single combined file.
-- **A real issue tracker (GitHub, Linear, …)** → publish one issue per ticket in dependency order (blockers first) so each ticket's blocking edges can reference real identifiers. Use the platform's native blocking / sub-issue relationship where it has one; otherwise set each ticket's "Blocked by" to the blocking issues. Apply the `ready-for-agent` triage label unless instructed otherwise — the tickets are agent-grabbable by construction.
+Do not copy unrelated sections or reproduce the entire specification.
 
-Work the **frontier**: any ticket whose blockers are all done. For a purely linear chain that means top to bottom.
+When a requirement applies to multiple tickets, repeat it in each affected ticket when omitting it could cause an incorrect implementation.
 
-Do NOT close or modify any parent issue.
+Prefer deliberate duplication over hidden dependencies on the reader's memory or prior knowledge.
 
-<local-ticket-template>
+## 4. Declare genuine dependencies
 
-# <NN> — <Ticket title>
+Give every ticket explicit blocking edges.
 
-**What to build:** the end-to-end behaviour this ticket makes work, from the user's perspective — not a layer-by-layer implementation list.
+Declare only genuine blockers, such as:
 
-**Blocked by:** the numbers/titles of the tickets that gate this one, or "None — can start immediately".
+- a required contract does not exist yet;
+- a prerequisite behaviour is unavailable;
+- a migration gate has not been satisfied;
+- validation depends on an earlier slice;
+- removal depends on all consumers being migrated.
 
-**Status:** ready-for-agent
+Do not block a ticket merely because another ticket appears earlier in the list.
 
-- [ ] Acceptance criterion 1
-- [ ] Acceptance criterion 2
+A ticket with no blockers can start immediately.
 
-</local-ticket-template>
+## 5. Review the breakdown
 
-<issue-template>
+Before publishing, present a concise preview containing:
 
-## Parent
+- title;
+- outcome;
+- blockers;
+- any important scope boundary.
 
-A reference to the parent issue on the tracker (if the source was an existing issue, otherwise omit this section).
+Ask whether:
 
-## What to build
+- the granularity is appropriate;
+- the dependency edges are correct;
+- any ticket should be merged, split, removed, or reordered.
 
-The end-to-end behaviour this ticket makes work, from the user's perspective — not layer-by-layer implementation.
+Iterate until approved unless the user explicitly requests immediate publication.
+
+## 6. Publish
+
+Use the repository's configured tracker or local ticket convention.
+
+In local mode, write one file per ticket under the configured location. When no convention exists, prefer:
+
+`.scratch/<feature-slug>/issues/<NN>-<slug>.md`
+
+In tracker mode, create one issue per ticket in dependency order so blocking relationships can reference real identifiers.
+
+Use native dependency relationships for blockers. Use sub-issue relationships only for the intended hierarchy; do not use them as a substitute for a blocking edge.
+
+Apply the repository's configured implementation-ready status or label, such as `ready-for-implementation`, after approval when the ticket is fully specified and can be executed once its declared dependencies are satisfied.
+
+Blocking dependencies do not make a ticket unready. They only determine when the ticket may start.
+
+Do not mark a ticket implementation-ready when it still contains an unresolved design question or missing requirement.
+
+Do not close or modify the parent specification or issue unless explicitly requested.
+
+## Ticket template
+
+```markdown
+# <Outcome-oriented title>
+
+Status: ready-for-implementation
+
+## Context
+
+Briefly explain the problem and why this slice exists.
+
+Keep this local to the ticket. Do not reproduce the entire parent specification.
+
+## Outcome
+
+Describe the end-to-end behaviour or system capability that becomes true when this ticket is complete.
+
+Use the perspective of the relevant actor: user, operator, developer, consuming system, or runtime.
+
+Do not provide a layer-by-layer implementation checklist.
+
+## Requirements
+
+Include every requirement and constraint from the parent specification that materially applies to this ticket.
+
+- Required behaviour
+- Relevant implementation constraint
+- Applicable responsive, accessibility, compatibility, migration, or operational rule
+
+Do not include unrelated requirements.
 
 ## Acceptance criteria
 
-- [ ] Criterion 1
-- [ ] Criterion 2
+- [ ] Observable and testable criterion
+- [ ] Observable and testable criterion
+
+## Verification
+
+Briefly explain how completion will be demonstrated or tested.
+
+Omit this section when the acceptance criteria already make verification obvious.
+
+## Out of scope
+
+Include this section only when adjacent work could reasonably be mistaken as part of the ticket.
+
+Keep it short and specific. Do not copy the parent specification's full out-of-scope list.
 
 ## Blocked by
 
-- A reference to each blocking ticket, or "None — can start immediately".
+- <ticket reference and genuine blocking reason>
 
-</issue-template>
+Or:
 
-In either form, avoid specific file paths or code snippets — they go stale fast. Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
+None — can start immediately.
+
+## Parent specification
+
+<Link, issue, or repository path>
+
+## Notes
+
+Include only decision-relevant context that cannot be inferred from the requirements above.
+
+Avoid volatile file paths, file-by-file implementation instructions, and code snippets unless they express an accepted contract more precisely than prose.
+```
+
+## 7. Final checks
+
+Before publishing, verify that:
+
+- every ticket delivers a coherent outcome;
+- every ticket contains the requirements needed to implement it correctly;
+- no ticket depends on reading the full parent specification for essential information;
+- acceptance criteria are observable;
+- blockers are genuine;
+- adjacent scope is excluded where necessary;
+- the set of tickets covers all material work in the source specification;
+- cleanup and removal work is explicit when required.

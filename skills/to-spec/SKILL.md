@@ -1,75 +1,133 @@
 ---
 name: to-spec
-description: Turn the current conversation into a spec and publish it to the project issue tracker — no interview, just synthesis of what you've already discussed.
+description: Turn the current conversation and codebase context into an implementation-ready specification that can be implemented directly or decomposed into tickets.
 disable-model-invocation: true
 ---
 
-This skill takes the current conversation context and codebase understanding and produces a spec (you may know this document as a PRD). Do NOT interview the user — just synthesize what you already know.
+# To Spec
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+Create a specification from the decisions and requirements established in the current conversation, referenced sources, and relevant codebase context.
 
-## Process
+The specification may be a PRD, design-conformance document, or internal engineering specification, depending on the work.
 
-1. Explore the repo to understand the current state of the codebase, if you haven't already. Use the project's domain glossary vocabulary throughout the spec, and respect any ADRs in the area you're touching.
+Do not restart discovery or interview the user by default. Ask only when an unresolved ambiguity would materially change scope, behaviour, architecture, compatibility, migration, or verification.
 
-2. Sketch out the seams at which you're going to test the feature. Existing seams should be preferred to new ones. Use the highest seam possible. If new seams are needed, propose them at the highest point you can. The fewer seams across the codebase, the better - the ideal number is one.
+## 1. Gather context
 
-Check with the user that these seams match their expectations.
+Use all relevant conversation context. If the user supplies a design, issue, ADR, document, prototype, or repository path, read it before drafting.
 
-3. Write the spec using the template below, then publish it to the project issue tracker. Apply the `ready-for-agent` triage label - no need for additional triage.
+Inspect the codebase as needed to understand existing behaviour, domain terminology, integration points, architecture, public contracts, test seams, and repository conventions. Respect relevant ADRs, domain documentation, and accepted decisions.
 
-<spec-template>
+Do not invent requirements, system behaviour, design details, or constraints unsupported by the conversation, sources, or codebase.
 
-## Problem Statement
+## 2. Classify the work and choose a structure
 
-The problem that the user is facing, from the user's perspective.
+Silently classify the work, then choose the lightest structure that fully describes it. Do not concatenate every possible section into one document.
 
-## Solution
+### Product feature
 
-The solution to the problem, from the user's perspective.
+Use the applicable sections from:
 
-## User Stories
+- Problem Statement
+- Solution
+- User Stories
+- Implementation Decisions
+- Acceptance Criteria
+- Testing Decisions
+- Out of Scope, when useful
 
-A LONG, numbered list of user stories. Each user story should be in the format of:
+Use concise user stories for distinct user-facing outcomes, workflows, permissions, failure modes, or meaningful edge cases. Do not split a workflow into stories for every field, visual detail, responsive rule, accessibility requirement, or technical constraint.
 
-1. As an <actor>, I want a <feature>, so that <benefit>
+### Design conformance or remediation
 
-<user-story-example>
-1. As a mobile bank customer, I want to see balance on my accounts, so that I can make better informed decisions about my spending
-</user-story-example>
+Use the applicable sections from:
 
-This list of user stories should be extremely extensive and cover all aspects of the feature.
+- Problem
+- Design References
+- Current Discrepancies
+- User Flows
+- Required Behaviour
+- Implementation Constraints
+- Acceptance Criteria
+- Verification
+- Out of Scope, when useful
 
-## Implementation Decisions
+Use this when implementation diverges from an approved design, specification, reference implementation, or established expected behaviour. Do not force it into user stories: use flows only for distinct end-to-end journeys, and express visual, responsive, accessibility, and interaction details as requirements or acceptance criteria.
 
-A list of implementation decisions that were made. This can include:
+### Internal engineering change
 
-- The modules that will be built/modified
-- The interfaces of those modules that will be modified
-- Technical clarifications from the developer
-- Architectural decisions
-- Schema changes
-- API contracts
-- Specific interactions
+Use the applicable sections from:
 
-Do NOT include specific file paths or code snippets. They may end up being outdated very quickly.
+- Problem
+- Current State
+- Required Outcome
+- Constraints
+- Acceptance Criteria
+- Verification
+- Out of Scope, when useful
 
-Exception: if a prototype produced a snippet that encodes a decision more precisely than prose can (state machine, reducer, schema, type shape), inline it within the relevant decision and note briefly that it came from a prototype. Trim to the decision-rich parts — not a working demo, just the important bits.
+Use this for refactors, migrations, performance or infrastructure work, internal correctness fixes, and changes whose actor is a developer, operator, consuming system, or runtime. Describe system behaviour, invariants, compatibility requirements, constraints, and observable outcomes; do not invent an end-user perspective.
 
-## Testing Decisions
+### Mixed work
 
-A list of testing decisions that were made. Include:
+Combine only the sections required for the user-facing outcome and engineering change.
 
-- A description of what makes a good test (only test external behavior, not implementation details)
-- Which modules will be tested
-- Prior art for the tests (i.e. similar types of tests in the codebase)
+## 3. Keep sections purposeful
 
-## Out of Scope
+Use each section for one purpose:
 
-A description of the things that are out of scope for this spec.
+- User stories or flows: who does what and why.
+- Current discrepancies: the gap between existing and expected behaviour.
+- Required behaviour: what the system must do.
+- Implementation decisions or constraints: accepted technical boundaries and choices.
+- Acceptance criteria: observable conditions proving completion.
+- Testing decisions or verification: how completion is demonstrated.
 
-## Further Notes
+Avoid needless duplication. Repeat or reference a requirement where needed to make the specification or acceptance criteria unambiguous.
 
-Any further notes about the feature.
+## 4. Record implementation decisions
 
-</spec-template>
+Record only applicable decisions that materially constrain implementation, including architecture, ownership boundaries, interfaces and contracts, schemas and payloads, compatibility, state management, responsive behaviour, accessibility, rollout or migration, and relevant repository conventions.
+
+Do not create a file-by-file implementation plan. Avoid volatile file paths and code snippets unless they express an accepted contract or design decision more precisely than prose.
+
+For design-conformance work, distinguish reference measurements from rigid production dimensions; preserve responsive behaviour and repository conventions. When specifying colours, spacing, radii, or shadows, state whether they map to existing or new design tokens.
+
+## 5. Define verification and acceptance
+
+Identify the highest stable seam through which the behaviour can be verified. Prefer existing public seams over internal implementation details, such as a rendered route, public API, CLI, integration boundary, domain-service interface, or operational signal.
+
+Verify observable behaviour rather than private methods, internal state shapes, CSS classes, or incidental implementation structure. Ask the user to confirm a test seam only when that choice materially changes architecture, scope, cost, or confidence.
+
+When automated test infrastructure does not exist, specify proportionate manual, visual, operational, or build-based verification rather than introducing unrelated infrastructure by default.
+
+Acceptance criteria must be observable and testable, not a low-level implementation checklist. Include applicable criteria for:
+
+- **Design conformance:** design structure, content hierarchy, responsive variants, interactions, accessibility, preserved context, and missing capabilities.
+- **Internal work:** preserved behaviour, compatibility, correctness, performance thresholds, migration completion, obsolete-path removal, and operational readiness.
+
+## 6. Scope and review
+
+State out-of-scope work when adjacent work could reasonably be mistaken as part of the change. Include positive scope boundaries only when they materially improve clarity; do not add ceremonial empty sections.
+
+Before finalizing, verify that:
+
+- the problem and outcome are clear;
+- no unsupported fact or requirement was invented;
+- the structure fits the work;
+- visual or internal details were not forced into user stories;
+- requirements are clear without needless duplication;
+- relevant ADRs, designs, contracts, and repository conventions are respected;
+- acceptance criteria are observable;
+- the verification seam is appropriate;
+- the document is proportional and has no unresolved placeholders.
+
+## 7. Publish
+
+Publish through the repository's configured tracker or local documentation convention.
+
+For a tracker, apply its configured implementation-ready status or label, such as `ready-for-implementation`, when one exists. Do not invent a label or require one for local documentation. When no publication convention exists, ask where the user wants the specification stored or published.
+
+Do not create implementation tickets as part of this skill.
+
+After publishing, report where the specification was saved or published, any blocking question or assumption requiring confirmation, and whether the next step is direct implementation or ticket decomposition.
