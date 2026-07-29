@@ -1,0 +1,15 @@
+{
+  "name": "luisb-skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Personal skills",
+  "keywords": [
+    "pi-package",
+    "pi-skills"
+  ],
+  "pi": {
+    "skills": [
+      "./skills"
+    ]
+  }
+}
