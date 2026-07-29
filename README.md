@@ -1,26 +1,22 @@
-# luisb-skills
+# skills
 
-Personal agent skills — portable across any harness (PI, Claude Code, Codex).
+## Instalar
 
-Built on the [Agent Skills standard](https://agentskills.io/specification).
+### npx skills (Recomendado)
 
-## Install
-
-### npx skills (Recommended)
-
-Works with any agent harness. Copies editable skill files locally.
+Funciona com qualquer agente. Copia os arquivos localmente e são editáveis.
 
 ```bash
 npx skills@latest add luiseduardobatista/skills
 ```
 
-Install a single skill:
+Uma skill específica:
 
 ```bash
 npx skills@latest add luiseduardobatista/skills --skill=git-workflow
 ```
 
-Update:
+Atualizar:
 
 ```bash
 npx skills update
@@ -28,27 +24,27 @@ npx skills update
 
 ### pi install
 
-PI-native package management. Clones and manages the repo automatically.
+Gerenciado nativamente pelo PI. Clona e atualiza o repositório automaticamente.
 
 ```bash
 pi install git:github.com/luiseduardobatista/skills
 ```
 
-Update:
+Atualizar:
 
 ```bash
 pi update git:github.com/luiseduardobatista/skills
 ```
 
-### Direct path
+### Caminho direto
 
-Clone the repo and point your harness to it. Best for active development — edits take effect on restart.
+Clona o repo e aponta o agente para ele. Melhor para desenvolvimento — edições refletem no próximo restart.
 
 ```bash
 git clone https://github.com/luiseduardobatista/skills ~/repos/skills
 ```
 
-Then add to your settings:
+Adicionar nas configurações:
 
 ```json
 {
@@ -58,7 +54,7 @@ Then add to your settings:
 
 ## Skills
 
-| Skill | Description |
+| Skill | Descrição |
 |---|---|
 | [git-workflow](skills/git-workflow/SKILL.md) | Regras para commits atômicos, conventional commits, PRs e operações Git |
 | [good-code](skills/good-code/SKILL.md) | Smallest stable change — KISS, YAGNI, código limpo |
