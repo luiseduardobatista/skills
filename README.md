@@ -62,6 +62,7 @@ Adicionar no `settings.json` do pi:
 | [good-code](skills/good-code/SKILL.md) | Smallest stable change — KISS, YAGNI, código limpo |
 | [grill-me](skills/grill-me/SKILL.md) | Entrevista intensa para aprimorar um plano ou design |
 | [grill-with-docs](skills/grill-with-docs/SKILL.md) | Entrevista para aprimorar planos e criar documentação durante o processo |
+| [grilling](skills/grilling/SKILL.md) | Entrevista persistente para testar um plano, decisão ou ideia |
 | [handoff](skills/handoff/SKILL.md) | Gera um documento de handoff conciso para continuidade em outra sessão |
 | [improve-codebase-architecture](skills/improve-codebase-architecture/SKILL.md) | Identifica oportunidades de aprofundamento na arquitetura do código |
 | [pr-description](skills/pr-description/SKILL.md) | Gera e revisa descrições de PR/MR claras e verificáveis |
