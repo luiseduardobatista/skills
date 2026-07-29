@@ -65,3 +65,5 @@ Adicionar no `settings.json` do pi:
 | [improve-codebase-architecture](skills/improve-codebase-architecture/SKILL.md) | Identifica oportunidades de aprofundamento na arquitetura do código |
 | [pr-description](skills/pr-description/SKILL.md) | Gera e revisa descrições de PR/MR claras e verificáveis |
 | [teach](skills/teach/SKILL.md) | Ensina um conceito ou habilidade em um workspace de aprendizado |
+| [to-spec](skills/to-spec/SKILL.md) | Transforma a conversa atual em uma especificação publicável |
+| [to-tickets](skills/to-tickets/SKILL.md) | Divide um plano ou especificação em tickets incrementais |
