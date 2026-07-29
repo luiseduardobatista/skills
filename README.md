@@ -60,4 +60,8 @@ Adicionar no `settings.json` do pi:
 | --- | --- |
 | [git-workflow](skills/git-workflow/SKILL.md) | Regras para commits atômicos, conventional commits, PRs e operações Git |
 | [good-code](skills/good-code/SKILL.md) | Smallest stable change — KISS, YAGNI, código limpo |
+| [grill-with-docs](skills/grill-with-docs/SKILL.md) | Entrevista para aprimorar planos e criar documentação durante o processo |
+| [handoff](skills/handoff/SKILL.md) | Gera um documento de handoff conciso para continuidade em outra sessão |
+| [improve-codebase-architecture](skills/improve-codebase-architecture/SKILL.md) | Identifica oportunidades de aprofundamento na arquitetura do código |
 | [pr-description](skills/pr-description/SKILL.md) | Gera e revisa descrições de PR/MR claras e verificáveis |
+| [teach](skills/teach/SKILL.md) | Ensina um conceito ou habilidade em um workspace de aprendizado |
