@@ -11,7 +11,9 @@ Prefer minimal software: fewer concepts, dependencies, abstractions, mutable sta
 
 Prioritize applicable correctness, security, compatibility, performance,
 accessibility, and resource constraints. Within those constraints, prefer
-clarity, maintainability, and the smallest stable change.
+clarity, maintainability, and the smallest stable change. Treat modularity,
+decoupling, and testability as proportional means to make the current solution
+clearer, safer to change, or simpler to verify—not as ends in themselves.
 
 Follow these principles:
 
@@ -47,6 +49,11 @@ Follow these principles:
 
 * **Cohesion and local reasoning:** Keep related behavior together, give each
   unit a clear purpose, and minimize the context required to understand it.
+
+* **Proportional structure:** Modularize, decouple, or introduce test seams
+  only when doing so reduces the context needed to understand or safely change
+  a unit, or enables narrower relevant verification. Do not add interfaces,
+  seams, or layers without those benefits.
 
 * **Minimal surface:** Minimize public APIs, mutable state, configuration,
   dependencies, layers, and extension points.
