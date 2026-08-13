@@ -38,14 +38,15 @@ Follow these principles:
 
 * **English by default:** Write code and comments in English — identifiers,
   function and type names, file names, and code documentation. Use another
-  language only when the user or the repository's standards explicitly require
-  it (e.g., locale-specific user-facing strings).
+  language only when the user or the convention of the repository or the
+  surrounding code explicitly requires it (e.g., locale-specific user-facing
+  strings).
 
-* **Language and ecosystem best practices:** Follow the idiomatic best practices
-  of the language in use, its ecosystem, and the project type (e.g., library,
-  CLI, web app, embedded). Prefer canonical, widely accepted patterns over
-  foreign ones, and rely on the ecosystem's standard solutions unless they
-  conflict with the principles above.
+* **Language and ecosystem best practices:** Follow the best practices of the
+  language, technology, and ecosystem in use, and of the project type (e.g.,
+  library, CLI, web app, embedded). Prefer canonical, widely accepted idiomatic
+  patterns over foreign ones, and rely on the ecosystem's standard solutions
+  unless they conflict with the principles above.
 
 * **Reuse suitable mechanisms:** Prefer appropriate existing code, platform
   capabilities, standard libraries, and installed dependencies. Do not force
