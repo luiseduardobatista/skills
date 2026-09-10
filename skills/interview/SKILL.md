@@ -13,6 +13,10 @@ Interview me relentlessly about every aspect of this until we reach a shared und
 - If your environment offers a structured way to present several questions at once (each with answer options, all answers collected in a single response), use it for each round; otherwise, ask the round as a short numbered list in one message.
 - Wait for all my answers before continuing.
 
+## Probe with scenarios
+
+When domain relationships are being discussed — the boundaries between concepts — stress-test them with a specific scenario: invent one edge case and work it through. It forces precision about where one concept ends and another begins.
+
 ## Separate facts from decisions
 
 - **Facts are yours**: if something can be found by exploring the environment (filesystem, tools, documentation, codebase), look it up rather than asking me.
