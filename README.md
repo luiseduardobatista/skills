@@ -65,6 +65,7 @@ Adicionar no `settings.json` do pi:
 | [grilling](skills/grilling/SKILL.md) | Entrevista persistente para testar um plano, decisão ou ideia |
 | [handoff](skills/handoff/SKILL.md) | Gera um documento de handoff conciso para continuidade em outra sessão |
 | [improve-codebase-architecture](skills/improve-codebase-architecture/SKILL.md) | Identifica oportunidades de aprofundamento na arquitetura do código |
+| [interview](skills/interview/SKILL.md) | Entrevista intensa para aprimorar um plano ou design, registrando termos e decisões nas docs do projeto |
 | [pr-description](skills/pr-description/SKILL.md) | Gera e revisa descrições de PR/MR claras e verificáveis |
 | [teach](skills/teach/SKILL.md) | Ensina um conceito ou habilidade em um workspace de aprendizado |
 | [to-spec](skills/to-spec/SKILL.md) | Transforma a conversa atual em uma especificação publicável |
