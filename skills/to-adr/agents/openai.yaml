@@ -1,0 +1,5 @@
+interface:
+  display_name: "To ADR"
+  short_description: "Record a decision as an ADR"
+policy:
+  allow_implicit_invocation: false
