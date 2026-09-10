@@ -8,7 +8,7 @@ Interview me relentlessly about every aspect of this until we reach a shared und
 
 ## Ask in rounds
 
-- Work in **rounds**: batch a few related questions at once, but only ones whose answers would not change the options or recommendation of another question in the same batch. A question that depends on an answer still open in this round belongs to a later round.
+- Work in **rounds**: batch a few related questions at once **instead of one at a time** — but only ones whose answers would not change the options or recommendation of another question in the same batch. A question that depends on an answer still open in this round belongs to a later round.
 - For every question, give your **recommended answer**.
 - If your environment offers a structured way to present several questions at once (each with answer options, all answers collected in a single response), use it for each round; otherwise, ask the round as a short numbered list in one message.
 - Wait for all my answers before continuing.
